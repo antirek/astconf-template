@@ -4,7 +4,7 @@
   "description": "Asterisk *.conf files templates",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha --ui tdd --recursive"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,8 @@
   "homepage": "https://github.com/antirek/astconf-template",
   "dependencies": {
     "sugar": "^1.4.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.0.1"
   }
 }
