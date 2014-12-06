@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/antirek/astconf-template/issues"
   },
-  "homepage": "https://github.com/antirek/astconf-template"
+  "homepage": "https://github.com/antirek/astconf-template",
+  "dependencies": {
+    "sugar": "^1.4.1"
+  }
 }
