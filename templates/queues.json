@@ -1,0 +1,71 @@
+{
+"sections": {
+    "general" : {
+        "name": "general",
+        "required": true,
+        "fields": {
+            "persistentmembers": {
+                "required": true,
+                "default": "yes"
+                },
+            "autofill": {
+                "required": true,
+                "default": "no"
+                },
+            "monitor-type": {
+                "required": false,
+                "default": "MixMonitor"
+                },
+            "updatecdr": {
+                "required": false,
+                "default": "no"
+                },
+            "shared_lastcall": {
+                "required": false,
+                "default": "no"
+                },
+            "negative_penalty_invalid": {
+                "required": false,
+                "default": "no"
+                },
+            "log_membername_as_agent": {
+                "required": false,
+                "default": "no"
+                }
+            }
+        },
+    "__queue": {
+        "name": "__queue",
+        "required": false,
+        "fields": {
+            "name": {
+                "required": true,
+                "type": "string"
+                },
+            "announce": {
+                "required": false,
+                "type": "string"
+                },
+            "strategy": {
+                "required": true,
+                "type": "enum",
+                "available": [
+                    "ringall", "leastrecent", "fewestcalls", 
+                    "random", "rrmemory", "rrordered", "linear", 
+                    "wrandom"
+                    ],
+                "default": "ringall"
+                },
+            "servicelevel": {
+                "required": true,
+                "type": "number",
+                "default": 0
+                },
+            "context": {
+                "required": false,
+                "type": "string"
+                }
+            }
+        }
+    }
+}

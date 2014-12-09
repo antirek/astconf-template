@@ -1,0 +1,42 @@
+{
+"sections": {
+    "general" : {
+        "name": "general",
+        "required": true,
+        "fields": {
+            }
+        },
+    "agents": {
+        "name": "__queue",
+        "required": true,
+        "fields": {
+            "maxlogintries": {
+                "required": false,
+                "type": "number",
+                "default": 3
+                },
+            "autologoff": {
+                "required": false,
+                "type": "number",
+                "default": 15
+                },
+            "autologoffunavail": {
+                "required": true,
+                "type": "enum",
+                "default": "yes",
+                "available": ["yes", "no"]
+                },
+            "agent": {
+                "required": false,
+                "type": "string",
+                "multiple": true
+                },
+            "group": {
+                "required": false,
+                "type": "string",
+                "multiple": true
+                }
+            }
+        }
+    }
+}
