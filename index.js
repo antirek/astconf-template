@@ -1,3 +1,3 @@
-var ConfScheme = require('./ConfScheme');
+var Template = require('./Template');
 
-module.exports = ConfScheme;
+module.exports = Template;
