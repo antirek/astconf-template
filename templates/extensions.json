@@ -33,15 +33,13 @@
                 "type": "enum",
                 "default": "no",
                 "available": ["yes", "no"]
-                },
-            },
+                }
+            }
         },
     "globals" : {
         "name": "globals",
         "required": true,
-        "fields": {
-
-        	}
+        "fields": ""
     	},
     "__context": {
     	"name": "__context",
@@ -50,12 +48,12 @@
     		"include": {
     			"required": false,
     			"type": "string",
-    			"multiple": true,
+    			"multiple": true
     			},
     		"exten": {
     			"required": false,
     			"type": "string",
-    			"multiple": true,
+    			"multiple": true
     			}
     		}
     	}
