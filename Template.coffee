@@ -1,10 +1,10 @@
 sugar = require 'sugar'
 fs = require 'fs'
 string = require 'string'
-confs = {}
+templates = {}
 
 
-class ConfTemplate
+class Template
 
   constructor: (schema, section, @obj)->
     @schema = schema
@@ -29,15 +29,6 @@ class ConfTemplate
         @attributes[key] = @obj[key]
 
 
-  getGeneral: ->
-    fields = @getSection('general').fields
-    general = {}
-    for key of fields
-      if fields[key].required
-        general[key] = fields[key].default || ''
-    general
-
-
   getAttributeFromSection: (section, key)->
     @getSection(section).fields[key]
 
@@ -52,13 +43,22 @@ class ConfTemplate
         else
           throw new Error 'Not available value'
       else
-        @attributes[key] = value
+        if attribute.multiple
+          current = @attributes[key]
+          @attributes[key] = []
+          if(current)
+            @attributes[key].push current
+          @attributes[key].push value
+        else
+          @attributes[key] = value
     else
       throw new Error 'This key not in schema'
 
 
   get: (key)->
     @attributes[key]
+
+
 
 fs
 .readdirSync "#{__dirname}/templates"
@@ -67,9 +67,8 @@ fs
   .chompRight '.json'
   .s
   schema = require "./templates/#{file}"
-  confs[name] = (section, obj)->
-    new ConfTemplate schema, section, obj
+  templates[name] = (section, obj)->
+    new Template schema, section, obj
 
 
-
-module.exports = confs
+module.exports = templates
