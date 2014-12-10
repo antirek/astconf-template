@@ -2,9 +2,12 @@ var Template = require('../index');
 
 console.log(Template);
 
-var te = Template['extensions']('__context', {include: 'tu'});
-te.set('include', 'qw');
+var context = Template['extensions']('__context', {
+    name: 'qw', 
+    include: 'internal'
+});
 
-console.log(te);
+context.set('include', 'external');
 
-//var user = new Conf.UserConf({name: 'Vasya', secret: '1234'});
+console.log(context.getAttributes());
+console.log(context.getName());

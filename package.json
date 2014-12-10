@@ -1,6 +1,6 @@
 {
   "name": "astconf-template",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Asterisk *.conf files templates",
   "main": "index.js",
   "scripts": {
