@@ -104,7 +104,15 @@ class Template
     @attributes[key]
 
 
+  getAttributes: ->
+    @attributes
 
+
+  getName: ->
+    @get('name')
+
+
+    
 fs
 .readdirSync "#{__dirname}/templates"
 .forEach (file)->

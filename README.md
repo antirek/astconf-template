@@ -2,11 +2,18 @@ astconf-template
 ================
 Asterisk *.conf files templates
 
-1. Create object with attributes 
-> var object = {name: 'Vasya', secret: '1234'}
+`````
+var Template = require('astconf-template');
 
-2. Add object to *.conf template
-> var user = Conf.UserConf(object);
+var context = Template['extensions']('__context', {
+    name: 'outbound', 
+    include: 'internal'
+});
 
-3. Get validated object in user.attributes and save it 
-> user.attributes
+context.set('include', 'external');
+
+console.log(context.getAttributes());
+console.log(context.getName());
+
+
+`````

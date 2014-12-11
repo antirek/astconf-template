@@ -149,6 +149,14 @@
       return this.attributes[key];
     };
 
+    Template.prototype.getAttributes = function() {
+      return this.attributes;
+    };
+
+    Template.prototype.getName = function() {
+      return this.get('name');
+    };
+
     return Template;
 
   })();
