@@ -45,6 +45,10 @@
     	"name": "__context",
     	"required": false,
     	"fields": {
+            "name": {
+                "required": true,
+                "type": "string"
+                },
     		"include": {
     			"required": false,
     			"type": "string",

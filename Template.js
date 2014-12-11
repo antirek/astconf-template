@@ -13,9 +13,9 @@
 
   Template = (function() {
     function Template(schema, section, obj) {
-      this.obj = obj;
       this.schema = schema;
       this.section = section;
+      this.obj = obj;
       this.attributes = {};
       this.create();
     }
@@ -34,7 +34,7 @@
           this.attributes[key] = fields[key]["default"] || '';
         }
       }
-      if (this.obj) {
+      if (this.validate()) {
         _ref = (Object.keys(fields)).intersect(Object.keys(this.obj));
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -45,11 +45,80 @@
       }
     };
 
+    Template.prototype.validate = function() {
+      var k, key, _i, _len, _ref;
+      for (key in this.obj) {
+        switch (typeof this.obj[key]) {
+          case 'object':
+            if (Array.isArray(this.obj[key])) {
+              _ref = this.obj[key];
+              for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                k = _ref[_i];
+                if (typeof this.obj[key][k] !== ('string' || 'number')) {
+                  throw new Error('attribute array can\'t contain other objects or arrays');
+                }
+              }
+            } else {
+              throw new Error('object must be array');
+            }
+            break;
+          case 'number':
+          case 'string':
+          case 'boolean':
+            break;
+          default:
+            throw new Error('obj can contain attributes with number, string, boolean or plain array');
+        }
+      }
+      return true;
+    };
+
     Template.prototype.getAttributeFromSection = function(section, key) {
       return this.getSection(section).fields[key];
     };
 
-    Template.prototype.set = function(key, value) {
+    Template.prototype.set = function() {
+      var args, k, key, _results;
+      args = Array.prototype.slice.call(arguments, 0);
+      if (typeof args[0] === 'object') {
+        _results = [];
+        for (key in args[0]) {
+          switch (typeof args[0][key]) {
+            case 'object':
+              if (Array.isArray(args[0][key])) {
+                _results.push((function() {
+                  var _i, _len, _ref, _results1;
+                  _ref = args[0][key];
+                  _results1 = [];
+                  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    k = _ref[_i];
+                    _results1.push(this.setOne(key, args[0][key][k]));
+                  }
+                  return _results1;
+                }).call(this));
+              } else {
+                throw new Error('value must be array');
+              }
+              break;
+            case 'string':
+            case 'number':
+            case 'boolean':
+              _results.push(this.setOne(key, args[0][key]));
+              break;
+            default:
+              console.log(typeof args[0][key], args[0][key], key);
+              throw new Error('not available set object');
+          }
+        }
+        return _results;
+      } else if (args[1]) {
+        return this.setOne(args[0], args[1]);
+      } else {
+        throw new Error('check set params');
+      }
+    };
+
+    Template.prototype.setOne = function(key, value) {
       var attribute, current;
       attribute = this.getAttributeFromSection(this.section, key);
       if (attribute) {
