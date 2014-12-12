@@ -114,7 +114,6 @@
               _results.push(this.setOne(key, args[0][key]));
               break;
             default:
-              console.log(typeof args[0][key], args[0][key], key);
               throw new Error('not available set object');
           }
         }

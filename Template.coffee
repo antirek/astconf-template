@@ -68,9 +68,7 @@ class Template
 
           when 'string', 'number', 'boolean'
             @setOne key, args[0][key]
-            
           else
-            console.log typeof args[0][key], args[0][key], key
             throw new Error 'not available set object'
     else if args[1]
       if Array.isArray args[1]
