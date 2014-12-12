@@ -78,7 +78,7 @@
     };
 
     Template.prototype.set = function() {
-      var args, k, key, _results;
+      var args, k, key, _i, _len, _ref, _results, _results1;
       args = Array.prototype.slice.call(arguments, 0);
       if (typeof args[0] === 'object') {
         _results = [];
@@ -92,7 +92,15 @@
                   _results1 = [];
                   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                     k = _ref[_i];
-                    _results1.push(this.setOne(key, args[0][key][k]));
+                    switch (typeof k) {
+                      case 'string':
+                      case 'number':
+                      case 'boolean':
+                        _results1.push(this.setOne(key, k));
+                        break;
+                      default:
+                        throw new Error('values of array must be string, number or boolean');
+                    }
                   }
                   return _results1;
                 }).call(this));
@@ -112,7 +120,25 @@
         }
         return _results;
       } else if (args[1]) {
-        return this.setOne(args[0], args[1]);
+        if (Array.isArray(args[1])) {
+          _ref = args[1];
+          _results1 = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            k = _ref[_i];
+            switch (typeof k) {
+              case 'string':
+              case 'number':
+              case 'boolean':
+                _results1.push(this.setOne(args[0], k));
+                break;
+              default:
+                throw new Error('values of array must be string, number or boolean');
+            }
+          }
+          return _results1;
+        } else {
+          return this.setOne(args[0], args[1]);
+        }
       } else {
         throw new Error('check set params');
       }
@@ -131,11 +157,15 @@
         } else {
           if (attribute.multiple) {
             current = this.attributes[key];
-            this.attributes[key] = [];
             if (current) {
-              this.attributes[key].push(current);
+              if (!Array.isArray(current)) {
+                this.attributes[key] = [];
+                this.attributes[key].push(current);
+              }
+              return this.attributes[key].push(value);
+            } else {
+              return this.attributes[key] = value;
             }
-            return this.attributes[key].push(value);
           } else {
             return this.attributes[key] = value;
           }

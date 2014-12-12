@@ -24,15 +24,47 @@
             return assert.deepEqual(template.attributes, object);
         });
 
-        test('check decline attr in scheme', function() {
+        test('check add attr to object', function() {
             var template = Template['extensions']('__context', {name: 'cool', include: 'inc1'});
-            console.log(template.attributes);
             template.set({'include': 'inc2'});
             template.set({'include': 'inc3'});
-            //template.set({'include': ['inc2', 'inc3']});
-            console.log(template.attributes);
 
             var object = {name: 'cool', include: ['inc1', 'inc2', 'inc3']};
+            return assert.deepEqual(template.attributes, object);
+        });
+
+        test('check decline attr in scheme', function() {
+            var template = Template['extensions']('__context', {name: 'cool', include: 'inc1'});         
+            template.set({'include': ['inc2', 'inc3']});
+
+            var object = {name: 'cool', include: ['inc1', 'inc2', 'inc3']};
+            return assert.deepEqual(template.attributes, object);
+        });
+
+        test('check decline attr in scheme', function() {
+            var template = Template['extensions']('__context', {name: 'cool', include: 'inc1'});         
+            template.set('include', ['inc2', 'inc3']);
+
+            var object = {name: 'cool', include: ['inc1', 'inc2', 'inc3']};
+            return assert.deepEqual(template.attributes, object);
+        });
+
+        test('check decline attr in scheme', function() {
+            var template = Template['extensions']('__context', {name: 'cool', include: 'inc1'});         
+            template.set({'include': ['inc2', 'inc3']});
+            template.set({'include': 'inc4'});
+            template.set({'include': ['inc5', 'inc6']});
+            template.set('include', 'inc7');
+            template.set('exten', 'exten1');
+            template.set({'exten': ['exten2', 'exten3']});
+            template.set('exten', ['exten4', 'exten5']);
+
+
+            var object = {
+                name: 'cool', 
+                include: ['inc1', 'inc2', 'inc3', 'inc4', 'inc5', 'inc6', 'inc7'],
+                exten: ['exten1', 'exten2', 'exten3', 'exten4', 'exten5']
+            };
             return assert.deepEqual(template.attributes, object);
         });
 

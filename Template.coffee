@@ -31,7 +31,6 @@ class Template
     for key of @obj
 
       switch typeof @obj[key]
-
         when 'object'
           if Array.isArray @obj[key]
             for k in @obj[key]
@@ -39,10 +38,8 @@ class Template
                 throw new Error 'attribute array can\'t contain other objects or arrays'
           else
             throw new Error 'object must be array'
-
         when 'number', 'string', 'boolean'
           break
-
         else 
           throw new Error 'obj can contain attributes with number, string, boolean or plain array'
     true
@@ -61,7 +58,11 @@ class Template
           when 'object'
             if Array.isArray args[0][key]
               for k in args[0][key]
-                @setOne key, args[0][key][k]
+                switch typeof k
+                  when 'string', 'number', 'boolean'
+                    @setOne key, k
+                  else
+                    throw new Error 'values of array must be string, number or boolean'
             else
               throw new Error 'value must be array'
 
@@ -72,7 +73,15 @@ class Template
             console.log typeof args[0][key], args[0][key], key
             throw new Error 'not available set object'
     else if args[1]
-      @setOne args[0], args[1]
+      if Array.isArray args[1]
+        for k in args[1]
+          switch typeof k
+            when 'string', 'number', 'boolean'
+              @setOne args[0], k
+            else
+              throw new Error 'values of array must be string, number or boolean'
+      else
+        @setOne args[0], args[1]
     else
       throw new Error 'check set params'
 
@@ -90,10 +99,13 @@ class Template
       else
         if attribute.multiple
           current = @attributes[key]
-          @attributes[key] = []
-          if(current)
-            @attributes[key].push current
-          @attributes[key].push value
+          if current
+            if !Array.isArray current
+              @attributes[key] = []
+              @attributes[key].push current
+            @attributes[key].push value
+          else
+            @attributes[key] = value
         else
           @attributes[key] = value
     else
